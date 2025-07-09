@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  help_bot_ai:
+    build: .
+    container_name: help_bot_ai
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=INFO
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8000:8000"  # Опционально, если добавите веб-интерфейс
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import sys; sys.exit(0)'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - helpbot_network
+
+networks:
+  helpbot_network:
+    driver: bridge
+
+volumes:
+  helpbot_data:
+    driver: local
+  helpbot_logs:
+    driver: local 
