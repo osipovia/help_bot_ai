@@ -16,7 +16,7 @@
 
 Используй только технологии из @vision.md:
 - **Python 3.11+**, **aiogram**, **httpx**, **sentence-transformers**, **chromadb**
-- **YandexGPT API**, **uv**, **pytest**, **python-dotenv**, **pydantic-settings**
+- **OpenRouter API**, **uv**, **pytest**, **python-dotenv**, **pydantic-settings**
 
 ## Структура кода
 
@@ -54,7 +54,7 @@
 
 - **Минимум тестов** - только критическая бизнес-логика (платежи, 1С API)
 - **pytest** - простые тесты без сложной настройки
-- **Мокай внешние API** - YandexGPT, 1С
+- **Мокай внешние API** - OpenRouter, 1С
 
 ## Запрещено
 

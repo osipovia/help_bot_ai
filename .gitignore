@@ -1,0 +1,21 @@
+# Environment files
+.env
+.env.local
+.env.production
+
+# UV virtual environment and cache
+.venv/
+.uv-cache/
+
+# Logs
+logs/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# ChromaDB
+data/chroma/ 

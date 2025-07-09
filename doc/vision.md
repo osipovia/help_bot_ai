@@ -16,7 +16,7 @@
 - **chromadb** - встраиваемая векторная база данных (файловая)
 
 ### LLM
-- **YandexGPT API** - внешний сервис для генерации ответов
+- **OpenRouter API** - внешний сервис для генерации ответов
 
 ### Управление проектом
 - **uv** - современный менеджер пакетов и окружений Python
@@ -69,7 +69,7 @@ help_bot_ai/
 │   ├── bot/                      # Логика telegram-бота
 │   │   ├── handlers.py           # Обработчики сообщений
 │   │   └── states.py             # Состояния диалога
-│   ├── llm/                      # Работа с YandexGPT
+│   ├── llm/                      # Работа с OpenRouter
 │   │   └── client.py             # LLM клиент
 │   ├── knowledge/                # База знаний и поиск
 │   │   └── search.py             # Поиск по услугам
@@ -115,7 +115,7 @@ help_bot_ai/
     ↓
 ┌─────────────────┬─────────────────┐
 │  Knowledge      │  LLM Client     │
-│  Search         │  (YandexGPT)    │
+│  Search         │  (OpenRouter)    │
 │  (ChromaDB)     │                 │
 └─────────────────┴─────────────────┘
     ↓
@@ -188,8 +188,7 @@ user_sessions = {
 # src/config/settings.py (Pydantic)
 class Settings(BaseSettings):
     telegram_bot_token: str
-    yandex_gpt_api_key: str
-    yandex_gpt_folder_id: str
+    openrouter_api_key: str
     onec_api_url: str
     onec_client_id: str
     onec_client_secret: str
@@ -224,17 +223,17 @@ class Settings(BaseSettings):
 
 ## 6. Работа с LLM
 
-### Интеграция с YandexGPT API
+### Интеграция с OpenRouter API
 
-- **Модель:** `YandexGPT 5 Pro • RC` (мощная модель для качественных ответов)
-- **Метод:** HTTP-запросы через httpx к Yandex Cloud API
+- **Модель:** OpenRouter API с доступом к различным моделям (Claude, GPT-4, и др.)
+- **Метод:** HTTP-запросы через httpx к OpenRouter API
 - **Контекст:** Системный промпт + найденная информация об услугах + история диалога
 
 ### RAG (Retrieval-Augmented Generation) логика
 
 1. **Поиск:** Пользовательский запрос → ChromaDB → топ-3 релевантных услуги
 2. **Промпт:** Системный промпт + найденные услуги + история диалога
-3. **Ответ:** YandexGPT генерирует ответ на основе предоставленной информации
+3. **Ответ:** OpenRouter генерирует ответ на основе предоставленной информации
 
 ### Структура промпта
 
@@ -276,7 +275,7 @@ class Settings(BaseSettings):
     "user_id": "123456",
     "request_tokens": 150,
     "response_tokens": 80,
-    "model": "yandexgpt-5-pro-rc",
+    "model": "anthropic/claude-3.5-sonnet",
     "success": true,
     "response_time_ms": 1200,
     "error": null
@@ -404,9 +403,8 @@ make clean      # Очистка временных файлов и кэша
 # Telegram Bot
 TELEGRAM_BOT_TOKEN=your_bot_token_here
 
-# YandexGPT API
-YANDEX_GPT_API_KEY=your_api_key
-YANDEX_GPT_FOLDER_ID=your_folder_id
+# OpenRouter API
+OPENROUTER_API_KEY=your_api_key
 
 # 1C Integration
 ONEC_API_URL=https://api.example.com/1c-integration
@@ -486,7 +484,7 @@ ERROR   # Ошибки, требующие внимания
 ### Формат логов
 ```
 2025-01-07 10:30:15 INFO [user_123456] Received message: "Расскажите про курсы"
-2025-01-07 10:30:16 INFO [llm] YandexGPT request tokens: 150, response tokens: 80
+2025-01-07 10:30:16 INFO [llm] OpenRouter request tokens: 150, response tokens: 80
 2025-01-07 10:30:17 ERROR [payment] 1C API error: Connection timeout
 ```
 
